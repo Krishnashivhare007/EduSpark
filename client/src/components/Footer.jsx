@@ -1,6 +1,25 @@
 import { AnimatePresence, motion } from "motion/react";
 import logo from "../assets/logo.png";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { serverUrl } from "../App";
+import axios from "axios";
+import { setUserData } from "../redux/userSlice";
+
+
 function Footer() {
+  const dispatch = useDispatch()
+    const navigate = useNavigate()
+    const handleSignOut = async () =>{
+        try {
+            await axios.get(serverUrl+ "/api/auth/logout", {withCredentials:true})
+            dispatch(setUserData(null))
+            navigate("/auth")
+        } catch (error) {
+            console.log(error);
+            
+        }
+    }
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -35,15 +54,38 @@ function Footer() {
         <div className="text-center">
             <h1 className="text-sm font-semibold text-white mb-4">Quick Links</h1>
           <ul className="space-y-2 text-sm">
-            <li className="text-gray-300 hover:text-white transition-colors">
+            <li onClick={()=>navigate("/notes")} className="text-gray-300 hover:text-white transition-colors">
               Notes
             </li>
-            <li className="text-gray-300 hover:text-white transition-colors">
+            <li onClick={()=>navigate("/history")} className="text-gray-300 hover:text-white transition-colors">
               History
+            </li>
+            <li onClick={()=>navigate("/pricing")} className="text-gray-300 hover:text-white transition-colors">
+              Add Credits
+            </li>
+          </ul>
+        </div>
+
+        <div className="text-center">
+            <h1 className="text-sm font-semibold text-white mb-4">Support & Account</h1>
+          <ul className="space-y-2 text-sm">
+            <li onClick={()=>navigate("/auth")} className="text-gray-300 hover:text-white transition-colors">
+              Sign In
+            </li>
+            <li onClick={handleSignOut} className="text-red-400 hover:text-red-300 transition-colors">
+              Sign Out
+            </li>
+            <li className="text-gray-300 hover:text-white transition-colors">
+              support@EduSpark.ac.in
             </li>
           </ul>
         </div>
       </div>
+      <div className="my-6 h-px bg-white/10"/>
+      <p className="text-center text-xs text-gray-500">
+      &copy; {new Date().getFullYear()} EduSpark AI. All rights reserved.
+      </p>
+
     </motion.div>
   );
 }
