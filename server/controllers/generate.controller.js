@@ -70,7 +70,7 @@ export const generateNotes = async (req, res) => {
     return res.status(200).json({
         data: aiResponse,
         noteId: notes._id,
-        creaditsLeft: user.credits
+        creditsLeft: user.credits
     })
   } catch (error) {
     console.log(error);

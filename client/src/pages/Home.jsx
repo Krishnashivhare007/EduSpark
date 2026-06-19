@@ -39,7 +39,11 @@ function Home() {
                             Generate exam-focused notes, project documentation, flow diagrams and revision-ready content using AI - faster, cleaner and smarter.
 
                         </motion.p>
-                        <motion.button
+                        
+
+                    </motion.div>
+
+                    <motion.button
                                     onClick={()=>navigate("/notes")}
                                     whileHover={{scale:1.07}}
                                     whileTap={{scale:0.97}}
@@ -47,8 +51,6 @@ function Home() {
                                     className="mt-10 px-10 py-3 rounded-xl flex items-center gap-3 bg-linear-to-br from-black/90 via-black/80 to-black/90 border border-white/10 text-white font-semibold text-lg shadow-[0_10px_20px_rgba(0,0,0,0.5)]">
                                         Get Started
                                     </motion.button>
-
-                    </motion.div>
                 </div>
 
                 <motion.div
