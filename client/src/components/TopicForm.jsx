@@ -43,13 +43,19 @@ function TopicForm({ setResult, setLoading, loading, setError }) {
       setRevisionMode(false);
       setIncludeDiagram(false);
 
-      if(typeof result.creditsLeft==="number"){
-        dispatch(updateCredits(result.creditsLeft))
+      if(typeof result.creditsLeft=== "number"){
+        
+        // dispatch(updateCredits(result.creditsLeft))
+        dispatch({ type: 'user/updateCredits', payload: result.creditsLeft });
       }
 
     } catch (error) {
       console.log(error);
+      if (error instanceof TypeError) {
+      setError("An internal app error occurred.");
+  } else {
       setError("Failed to fetch notes from server");
+  }
       setLoading(false);
     }
   };
