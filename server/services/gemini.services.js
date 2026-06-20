@@ -42,7 +42,8 @@ export const generateGeminiResponse = async (prompt) => {
     
         return JSON.parse(cleanText);
     } catch (error) {
-        
+        console.error("GEMINI API ASLI ERROR:", error); // <-- Ye terminal me asli wajeh batayega
+    return null;
     }
 
 }

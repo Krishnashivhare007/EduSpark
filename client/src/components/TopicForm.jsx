@@ -54,7 +54,7 @@ function TopicForm({ setResult, setLoading, loading, setError }) {
       if (error instanceof TypeError) {
       setError("An internal app error occurred.");
   } else {
-      setError("Failed to fetch notes from server");
+      setError("Failed to fetch notes from server(Try Once again)");
   }
       setLoading(false);
     }
