@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import ReactMarkdown from 'react-markdown'
+import MermaidSetup from './MermaidSetup';
 
 const markDownComponent = {
         h1: ({ children }) =>(
@@ -118,6 +119,15 @@ function FinalResult({result}) {
                     <li key={i}>{p}</li>
                 ))}
             </ul>
+            </section>}
+
+           {result.diagram?.data && <section>
+                <SectionHeader icon="📊" title="Diagram" color="cyan"/>
+
+                <MermaidSetup diagram={result.diagram?.data}/>
+                <p className='mt-3 text-xs text-gray-500 italic'>
+                   ℹ️ if you need this diagram for future reference or revision, you can save it by taking a screenshot.
+                </p>
             </section>}
 
                 <section className=''>

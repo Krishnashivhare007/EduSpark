@@ -90,11 +90,10 @@ CHART TYPES ALLOWED:
 - bars
 - lines
 - pies
-- histograms
 
 CHART OBJECT FORMAT:
 {
-  "type": "bar | line | pie | histogram",
+  "type": "bar | line | pie",
   "title": "string",
   "data": [
     { "name": "string", "value": 10 }
