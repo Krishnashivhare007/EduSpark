@@ -42,7 +42,7 @@ const autoFixBadNodes = (diagram)=> {
     let index = 0;
     return diagram.replace(/\[(.*?)]/g,(_, label) => {
             index++;
-            return `N${index}[$(label)]`
+            return `N${index}["${label}"]`
 
     });
 

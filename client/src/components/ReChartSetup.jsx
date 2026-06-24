@@ -2,7 +2,10 @@ import {
   Bar,
   BarChart,
   Cell,
+  Line,
   LineChart,
+  Pie,
+  PieChart,
   ResponsiveContainer,
   Tooltip,
   XAxis,
@@ -24,7 +27,7 @@ function ReCharSetup({ charts }) {
           <div className="h-72">
             <ResponsiveContainer width="100%" height="100%">
               {chart.type === "bar" && (
-                <BarChart dataKey={chart.data}>
+                <BarChart data={chart.data}>
                   <XAxis dataKey="name" />
                   <YAxis />
                   <Tooltip />
@@ -36,7 +39,34 @@ function ReCharSetup({ charts }) {
                 </BarChart>
               )}
               {chart.type === "line" && (
-                <LineChart dataKey={chart.data}></LineChart>
+                <LineChart data={chart.data}>
+                  <XAxis dataKey="name" />
+                  <YAxis />
+                  <Tooltip />
+                  <Line
+                    type="monotone"
+                    dataKey="value"
+                    stroke="#6366f1"
+                    strokeWidth={3}
+                  />
+                </LineChart>
+              )}
+
+              {chart.type === "pie" && (
+                <PieChart>
+                  <Tooltip />
+                  <Pie
+                    data={chart.data}
+                    dataKey="value"
+                    nameKey="name"
+                    outerRadius={100}
+                    label>
+                      {chart.data.map((_, i) => (
+                      <Cell key={i} fill={COLORS[i % COLORS.length]} />
+                    ))}
+
+                    </Pie>
+                </PieChart>
               )}
             </ResponsiveContainer>
           </div>
