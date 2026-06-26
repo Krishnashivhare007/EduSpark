@@ -9,6 +9,17 @@ function Pricing() {
   const [paying,setPaying] = useState(false)
   const [payingAmount,setPayingAmount] = useState(null)
 
+  const handlePaying = async (amount) => {
+    try {
+        setPayingAmount(amount)
+        setPaying(true)
+
+
+    } catch (error) {
+        
+    }
+  }
+
   return (
     <div className="min-h-screen bg-gray-100 px-6 py-10 relative">
       <button
@@ -29,8 +40,65 @@ function Pricing() {
         </p>
       </motion.div>
 
-      <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6"></div>
-        <PricingCard />
+      <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
+        <PricingCard 
+        title="Starter"
+        price="₹100"
+        amount={100}
+        credits="100 Credits"
+        description="Perfect for quick revision"
+        features={[
+            "Generate AI notes",
+            "Exam-focused answers",
+            "Diagram & charts support",
+            "Fast generation"
+        ]}
+        selectedPrice={selectedPrice}
+        setSelectedPrice={setSelectedPrice}
+        onBuy={handlePaying} 
+        paying={paying}
+        payingAmount={payingAmount}
+        />
+
+        <PricingCard 
+        title="Popular"
+        popular={true}
+        price="₹200"
+        amount={200}
+        credits="300 Credits"
+        description="Best value for students"
+        features={[
+            "All Starter Features",
+            "More Credits per ₹",
+            "Revision Mode access",
+            "Priority AI response"
+        ]}
+        selectedPrice={selectedPrice}
+        setSelectedPrice={setSelectedPrice}
+        onBuy={handlePaying} 
+        paying={paying}
+        payingAmount={payingAmount}
+        />
+
+        <PricingCard 
+        title="Pro Learner"
+        price="₹500"
+        amount={500}
+        credits="1000 Credits"
+        description="For serious exam preparation"
+        features={[
+            "Maximum Credit Value",
+            "Unlimited Revision",
+            "Charts and Diagrams",
+            "Ideal for full syllabus"
+        ]}
+        selectedPrice={selectedPrice}
+        setSelectedPrice={setSelectedPrice}
+        onBuy={handlePaying} 
+        paying={paying}
+        payingAmount={payingAmount}
+        />
+    </div>
     </div>
   );
 }
@@ -84,13 +152,13 @@ function PricingCard({
             ? "bg-black text-white"
             : " bg-indigo-600 text-white hover:bg-indigo-700"
         }`}>
-
+            {isPayingThisCard? "Redirecting...":"Buy Now"}
     </button>
 
     <ul className="mt-5 space-y-2 text-sm to-gray-600">
         {features.map((f,i)=>(
             <li key={i} className="flex gap-2">
-                <span className="text-green-600"><IoIosCheckmarkCircle size={12}/></span>
+                <span className="text-green-600 mt-0.5"><IoIosCheckmarkCircle size={16}/></span>
                 {f}
             </li>
         ))}
