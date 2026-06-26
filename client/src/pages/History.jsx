@@ -5,6 +5,7 @@ import { AnimatePresence, motion, spring } from "motion/react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { GiHamburgerMenu } from "react-icons/gi";
+import FinalResult from "../components/FinalResult";
 
 function History() {
   const [topics, setTopics] = useState([]);
@@ -12,6 +13,13 @@ function History() {
   const { userData } = useSelector((state) => state.user);
   const credits = userData.credits;
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  
+  const [activeNodeId, setActiveNoteId] = useState(null);
+
+  const [selectedNote, setSelectedNote] = useState(null);
+  const [loading, setLoading] = useState(false);
+
 
   useEffect(() => {
     const myNotes = async () => {
@@ -33,6 +41,20 @@ function History() {
       setIsSidebarOpen(true);
     }
   }, []);
+
+  const openNotes = async (noteId) => {
+    setLoading(true)
+    setActiveNoteId(noteId)
+    try {
+      const res = await axios.get(serverUrl + `/api/notes/${noteId}` ,{withCredentials:true})
+
+      setSelectedNote(res.data.content)
+      setLoading(false)
+    } catch (error) {
+      console.log(error);
+      setLoading(false)
+    }
+  }
 
   return (
     <div className="min-h-screen bg-linear-to-br from-gray-100 to-gray-200 px-6 py-8">
@@ -116,19 +138,42 @@ function History() {
                   {topics.map((t, i) => (
                     <li
                       key={i}
-                      className="cursor-pointer rounded-xl p-3 bg-white/5 border border-white/10 hover:bg-white/10"
+                      onClick={()=>{openNotes(t._id)}}
+                      className={`
+                        cursor-pointer rounded-xl p-3 border transition-all
+                        ${
+                          activeNodeId === t._id 
+                          ? "bg-indigo-500/30 border-indigo-400 shadow-[0_0_0_1px_rgba(99,102,241,0.6)]" 
+                          : "bg-white/5 border-white/10 hover:bg-white/10"
+                        }
+                        `}
                     >
                       <p className="text-sm font-semibold text-white">
                         {t.topic}
                       </p>
 
                       <div className="flex flex-wrap gap-2 mt-2 text-xs">
-                        
-                        {t.classLevel && <span className="px-2 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300">ClassLevel : {t.classLevel}</span>}
+                        {t.classLevel && (
+                          <span className="px-2 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300">
+                          ClassLevel : {t.classLevel}
+                          </span>
+                        )}
 
-                        {t.examType && <span className="px-2 py-0.5 rounded-full bg-purple-500/20 text-purple-300">{t.examType}</span>}
-
+                        {t.examType && (
+                          <span className="px-2 py-0.5 rounded-full bg-purple-500/20 text-purple-300">
+                          {t.examType}
+                          </span>
+                        )}
                       </div>
+
+                        <div className="flex gap-3 mt-2 text-xs text-gray-300">
+
+                            {t.revisionMode && <span>⚡️ Revision</span>}
+                            {t.includeDiagram && <span>📊 Diagram</span>}
+                            {t.includeChart && <span>📉 Chart</span>}
+
+                        </div>
+
                     </li>
                   ))}
                 </ul>
@@ -136,6 +181,23 @@ function History() {
             </motion.div>
           )}
         </AnimatePresence>
+
+        <motion.div 
+        initial={{ opacity: 0, y: -15 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="lg:col-span-3 rounded-2xl bg-white shadow-[0_10px_15px_rgba(0,0,0,0.15)] p-6 min-h-[75vh]">
+
+          { loading && <p className="text-center to-gray-500">Loading notes...</p> }
+          { !loading && !selectedNote && (
+            <div className="h-full flex items-center justify-center to-gray-400">
+                Select a topic from the left
+            </div>
+          )}
+
+          {!loading && selectedNote && <FinalResult result={selectedNote}/>}
+
+        </motion.div>
       </div>
     </div>
   );

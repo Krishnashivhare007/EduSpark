@@ -40,10 +40,20 @@ const cleanMermaidChart = (diagram)=>{
 
 const autoFixBadNodes = (diagram)=> {
     let index = 0;
-    return diagram.replace(/\[(.*?)]/g,(_, label) => {
-            index++;
-            return `N${index}["${label}"]`
+    const used = new Map();
 
+    return diagram.replace(/\[(.*?)\]/g,(match, label) => {
+        const key = label.trim();
+
+        if(used.has(key)){
+            return used.get(key);
+        }
+            index++;
+            const id = `N${index}`;
+            const node = `${id}["${key}"]`;
+
+            used.set(key,node);
+            return node;
     });
 
     };
