@@ -51,14 +51,14 @@ export const createCreditsOrder = async (req,res) => {
     }
 }
 
-export const stripeWebhook = async (res,req) => {
+export const stripeWebhook = async (req,res) => {
     const sign = req.headers["stripe-signature"]
 
     let event;
 
     try {
         event = stripe.webhooks.constructEvent(
-        res.body,
+        req.body,
         sign,
         process.env.STRIPE_WEBHOOK_SECRET
         )
