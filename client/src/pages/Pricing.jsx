@@ -2,6 +2,9 @@ import { useNavigate } from "react-router-dom";
 import { AnimatePresence, motion } from "motion/react";
 import { IoIosCheckmarkCircle } from "react-icons/io";
 import { useState } from "react";
+import { serverUrl } from "../App";
+import axios from "axios";
+
 
 function Pricing() {
   const navigate = useNavigate();
@@ -13,9 +16,17 @@ function Pricing() {
     try {
         setPayingAmount(amount)
         setPaying(true)
+        const result =await axios.post(serverUrl+"/api/credit/order",{amount},{withCredentials:true})
 
+        if(result.data.url){
+          window.location.href = result.data.url
+        }
+
+        setPaying(false)
 
     } catch (error) {
+        setPaying(false)
+        console.log(error);
         
     }
   }

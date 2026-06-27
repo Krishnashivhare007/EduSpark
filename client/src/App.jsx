@@ -8,6 +8,8 @@ import { useDispatch, useSelector } from "react-redux"
 import History from "./pages/History"
 import Notes from "./pages/Notes"
 import Pricing from "./pages/Pricing"
+import PaymentSuccess from "./pages/PaymentSuccess"
+import PaymentFailed from "./pages/PaymentFailed"
 
 export const serverUrl = "http://localhost:8000"
 
@@ -28,6 +30,9 @@ const {userData} = useSelector((state)=>state.user)
       <Route path="/history" element={!userData ? <Navigate to="/auth" replace/>:<History/>}/>
       <Route path="/notes" element={!userData ? <Navigate to="/auth" replace/>:<Notes/>}/>
       <Route path="/pricing" element={!userData ? <Navigate to="/auth" replace/>:<Pricing/>}/>
+      <Route path="/payment-success" element={<PaymentSuccess/>}/>
+      <Route path="/payment-failed" element={<PaymentFailed/>}/>
+     
     </Routes>
   )
 }
