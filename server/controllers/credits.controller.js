@@ -45,9 +45,9 @@ export const createCreditsOrder = async (req,res) => {
             }
         })
 
-        return res.status(200).json({url: session.url});
+        res.status(200).json({url: session.url});
     } catch (error) {
-        return res.status(500).json({ message: "Stripe error"});
+        res.status(500).json({ message: "Stripe error"});
     }
 }
 
